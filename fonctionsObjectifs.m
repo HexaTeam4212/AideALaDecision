@@ -1,4 +1,4 @@
-function [x, OUT ] = contraites()
+function [x, OUT ] = fonctionsObjectifs()
     
     A = [8 15 0 15 0 10
          17 11 12 15 7 12
@@ -82,13 +82,18 @@ function [x, OUT ] = contraites()
         % produit au minimum 75% de sa capacité max (déduite à partir de
         % f2)
          b3 = [4800 4800 4800 4800 4800 4800 4800 0 -123 -63 0 -15 -96 750 620 815];
-    b3bis = [4800 4800 4800 4800 4800 4800 4800 0 0 0 0 0 0 750 620 815 -338.7646];
+    b3bis = [4800 4800 4800 4800 4800 4800 4800 0 0 0 0 0 0 750 620 815 -296.4191];
 
          
      f3 = [1 1 1 1 1 1] + mp1 + mp2 + mp3;
-      f3bis = f3*[0 175.3128 90.0298 0 21.2314 136.8818]'
+     f3bis = f3*[0 175.3128 90.0298 0 21.2314 136.8818]';
+     %disp(f3bis);
     
-    % resultat f1
+      % d'après la documentation,
+      % x correspond au min de f'*X (X vecteur des variables)
+      % OUT correspond à f'*x (le même x défini plus haut)
+      
+% resultat f1
 %      [x,OUT]=linprog(-f1,A,b);
 %      disp(x)
 %      disp(-OUT)
@@ -99,7 +104,7 @@ function [x, OUT ] = contraites()
 %      disp(-OUT)
 
 % resultat f3
-     [x,OUT]=linprog(f3,A3bis,b3bis);
+     [x,OUT]=linprog(f3,A3bis,b3bis); 
      disp(x)
      disp(OUT)
 
