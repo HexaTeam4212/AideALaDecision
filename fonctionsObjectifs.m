@@ -107,5 +107,67 @@ function [x, OUT ] = fonctionsObjectifs()
      [x,OUT]=linprog(f3,A3bis,b3bis); 
      disp(x)
      disp(OUT)
+     
+    % responsable du personnel
+     
+    Benefice = [];
+    Machine2 = [];
+    Machine7 = [];
+    for i = 1:1:75
+
+        mp1 = [1 2 1 1 1 2];
+        mp2 = [2 2 1 2 2 1];
+        mp3 = [1 0 3 2 2 0];
+        m1 = [8 15 0 15 0 10];
+        m2 = [17 11 12 15 7 12];
+        m3 = [8 1 11 0 10 25];
+        m4 = [2 10 5 4 13 7];
+        m5 = [15 0 0 7 10 25];
+        m6 = [15 5 3 12 8 0];
+        m7 = [15 13 15 18 10 7];
+
+
+        f1 = -(3*mp1+4*mp2+2*mp3) -(2*m1 + 2*m2 + m3+m4+2*m5+3*m6+3*m7)/60 + [55 47 60 45 35 50]; %mettre -f1
+        f2 = [1 1 1 1 1 1]; %mettre -f2
+
+        A = [8 15 0 15 0 10
+             17 11 12 15 7 12
+             8 1 11 0 10 25
+             2 10 5 4 13 7
+             15 0 0 7 10 25
+             15 5 3 12 8 0
+             15 13 15 18 10 7
+             -1 0 0 0 0 0
+             0 -1 0 0 0 0
+             0 0 -1 0 0 0
+             0 0 0 -1 0 0
+             0 0 0 0 -1 0
+             0 0 0 0 0 -1
+             1 2 1 1 1 2
+             2 2 1 2 2 1
+             1 0 3 2 2 0
+             -f1];
+
+        b = [4800 3300 4800 4800 4800 4800 3300 0 0 0 0 0 0 750 620 815 -i*15570/100];
+
+        Aeq = [ 1 1 1 -1 -1 -1];
+
+        beq = [0];
+
+        f5 = m2+m7;
+
+         [x,OUT]=linprog(f5,A,b);
+         Benefice(i) = f1*x;
+         Machine2(i) = m2*x;
+         Machine7(i) = m7*x;
+    end
+    figure(1)
+    plot(Benefice,Machine7+Machine2)
+    
+    figure(2)
+    plot(Benefice,Machine2)
+    hold on
+    plot(Benefice,Machine7)
+    hold off
 
 end
