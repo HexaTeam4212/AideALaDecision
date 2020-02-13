@@ -43,6 +43,7 @@ fonctionRespStock = [1 1 1 1 1 1] + mp1 + mp2 + mp3;
 % respCommercial ?
 
 fonctionRespPersonnel = m2+m7;
+respPersonnel(fonctionRespPersonnel,fonctionComptable,m2,m7);
 
 % d'après la documentation,
 % la première sortie de linprog correspond au min de f'*X (X vecteur des variables)
@@ -93,11 +94,11 @@ function [X, NbStock] = respStock(f, NbFabMax)
      % disp(f3bis); calcul du stock à partir de la capacité max de
      % fabrication sans nouvelle contrainte
 end
-function [X, NbFab] = respPersonnel(A,b,f,fComptable)
-    Benefice = [];
-    Machine2 = [];
-    Machine7 = [];
-    A5 = [8 15 0 15 0 10
+function [X, NbFab] = respPersonnel(fRespPersonnel,fComptable,m2,m7)
+    Benefice = zeros(75);
+    Machine2 = zeros(75);
+    Machine7 = zeros(75);
+    A = [8 15 0 15 0 10
          17 11 12 15 7 12
          8 1 11 0 10 25
          2 10 5 4 13 7
@@ -115,12 +116,11 @@ function [X, NbFab] = respPersonnel(A,b,f,fComptable)
          1 0 3 2 2 0
          -fComptable];
 
-    f5 = m2+m7;
     for i = 1:1:75
-    b5 = [4800 3300 4800 4800 4800 4800 3300 0 0 0 0 0 0 750 620 815 -i*15570/100];
+    b = [4800 3300 4800 4800 4800 4800 3300 0 0 0 0 0 0 750 620 815 -i*15570/100];
 
-     [X,OUT]=linprog(f5,A5,b5);
-     Benefice(i) = f1*X;
+     [X,NbFab]=linprog(fRespPersonnel,A,b);
+     Benefice(i) = fComptable*X;
      Machine2(i) = m2*X;
      Machine7(i) = m7*X;
     end
@@ -135,9 +135,5 @@ function [X, NbFab] = respPersonnel(A,b,f,fComptable)
 
     legend('Bénéfice de Machine 2', 'Bénéfice de Machine 7')
     hold off
-
-    [X,NbFab]=linprog(f,A,b);
-    disp(X)
-    disp(NbFab)
 end
 
