@@ -40,7 +40,7 @@ fonctionRespStock = [1 1 1 1 1 1] + mp1 + mp2 + mp3;
 % [~,NbFabMax] = respAtelier(A,b,fonctionRespAtelier);
 % respStock(fonctionRespStock,NbFabMax);
 
-% respCommercial ?
+% respCommercial(A,b,fonctionComptable,fonctionRespAtelier);
 
 fonctionRespPersonnel = m2+m7;
 respPersonnel(fonctionRespPersonnel,fonctionComptable,m2,m7);
@@ -93,6 +93,18 @@ function [X, NbStock] = respStock(f, NbFabMax)
      % f3bis = f3*[0 175.3128 90.0298 0 21.2314 136.8818]';
      % disp(f3bis); calcul du stock à partir de la capacité max de
      % fabrication sans nouvelle contrainte
+end
+function [X1,Benef,X2,Quantite] = respCommercial(A,b,fRespCommercial1, fRespCommercial2)
+     Aeq = [1 1 1 -1 -1 -1];
+     beq = [0];
+     [X1,Benef] = linprog(fRespCommercial1,A,b,Aeq,beq);
+     disp("Maximisation de la fonction de bénéfice")
+     disp(X1)
+     disp(Benef)
+     [X2,Quantite] = linprog(fRespCommercial2,A,b,Aeq,beq);
+     disp("Maximisation de la fonction de quantité")
+     disp(X2)
+     disp(Quantite)
 end
 function [X, NbFab] = respPersonnel(fRespPersonnel,fComptable,m2,m7)
     Benefice = zeros(75);
